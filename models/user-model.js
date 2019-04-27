@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
     // document structure & rules defined here
-    fullName: {
+      fullName: {
       type: String,
       required: true,
       minlength: 2
@@ -20,8 +20,8 @@ const userSchema = new Schema({
       required: true 
     },
     bio      : {type: String, require: false},
-    gender   : {type: String, require: false},
-    age      : {type: Number, require: false},
+    following: [{type: mongoose.Schema.ObjectId, ref: 'User'}],
+    followers: [{type: mongoose.Schema.ObjectId, ref: 'User'}],
     role     : {type: String, enum: ['GUEST', 'EDITOR', 'ADMIN'], default: 'GUEST'},
   },
   {
@@ -33,3 +33,5 @@ const userSchema = new Schema({
 const User = mongoose.model("User", userSchema);
 
 module.exports = User;
+
+

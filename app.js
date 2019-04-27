@@ -10,7 +10,7 @@ const logger       = require('morgan');
 const path         = require('path');
 
 const session = require('express-session');
-
+const errorHandler = require('errorhandler');
 // import passport docs from config folder
 const passportSetup =  require('./config/passport/passport-setup');
 
@@ -34,8 +34,8 @@ const app = express();
 
 // Middleware Setup
 app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json({limit: '10mb', extended: true}))
+app.use(bodyParser.urlencoded({limit: '10mb', extended: true}))
 app.use(cookieParser());
 
 // Express View engine setup
@@ -80,13 +80,17 @@ app.use(session({
 // 🎯🎯🎯 MUST come after the session: 🎯🎯🎯
 passportSetup(app);
 
+// Add models
+require('./models/park-model');
 
 // ROUTES MIDDLEWARE:
 
 const index = require('./routes/index');
 app.use('/', index);
 
-app.use('/api', require("./routes/auth-routes.js"));
-
+app.use('/api', require("./routes/auth-routes"));
+app.use('/api', require("./routes/park-routes"));
+app.use('/api', require('./routes/upload-routes'));
+app.use('/api/parks/', require("./routes/comment-routes"));
 
 module.exports = app;
