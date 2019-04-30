@@ -30,14 +30,14 @@ router.post('/parks', (req, res, next) => {
   }
   const newPark = new Parks(body);
   return newPark.save()
-  .then(() => res.json({ park: newPark.toJSON() }))
+  .then(parks => res.json(parks))
   .catch(next);
 });
 
 router.get('/parks', (req, res, next) => {
   return Parks.find()
   .sort({ createdAt: 'descending' })
-  .then((parks) => res.json({ parks: parks.map(park => park.toJSON()) }))
+  .then(parks => res.json(parks))
   .catch(next);
 });
   
@@ -70,7 +70,7 @@ router.patch('/parks/:id', (req, res, next) => {
     req.park.imagePark = body.imagePark;
   }
   return req.park.save()
-  .then(() => res.json({ park: req.park.toJSON() }))
+  .then(parks => res.json(parks))
   .catch(next);
 });
 

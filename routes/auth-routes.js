@@ -8,7 +8,7 @@ const passport = require('passport');
 const bcrypt = require('bcryptjs');
 const bcryptSalt = 10;
 
-
+//http://localhost:3001/signup`
 router.post("/signup", (req, res, next) => {
   const { fullName, email, originalPassword } = req.body;
 
@@ -47,7 +47,6 @@ router.post("/signup", (req, res, next) => {
 
 //////////////// LOGIN /////////////////////
 router.post("/login", (req, res, next) => {
-  // LOGIN WITH PASSPORT-LOCAL-STRATEGY:
   passport.authenticate('local', (err, userDoc, failureDetails) => {
 
     if (err) {
@@ -66,7 +65,9 @@ router.post("/login", (req, res, next) => {
         return;
       }
 
+      userDoc.encryptedPassword = undefined;
       res.json({ userDoc });
+      
     });
   })(req, res, next);
 })
@@ -74,13 +75,13 @@ router.post("/login", (req, res, next) => {
 //////////////// LOGOUT /////////////////////
 
 router.delete("/logout", (req, res, next) => {
-  //removes the user ID from session
+  // "req.logOut()" is a Passport method that removes the user ID from session
   req.logOut();
+
   // send empty "userDoc" when you log out
   res.json({ userDoc: null });
 });
 
-// GET "/checkuser" allows the client to check to see:
 router.get("/checkuser", (req, res, next) => {
   if (req.user) {
   // hide "encryptedPassword" before sending the JSON (it's a security risk)

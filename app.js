@@ -88,9 +88,10 @@ require('./models/park-model');
 const index = require('./routes/index');
 app.use('/', index);
 
-app.use('/api', require("./routes/auth-routes"));
-app.use('/api', require("./routes/park-routes"));
-app.use('/api', require('./routes/upload-routes'));
-app.use('/api/parks/', require("./routes/comment-routes"));
+app.use('/api', require('./routes/auth-routes'));
+app.use('/api', require('./routes/park-routes'));
+app.use('/api/upload', require('./routes/upload-routes'));
+app.use('/api/profile', require('./routes/profile-routes'));
+app.use('/api/posts', require('./routes/posts-routes'));
 
 module.exports = app;
