@@ -56,9 +56,10 @@ router.get('/parks/:id', (req, res, next) => {
   return res.json({
     park: req.park.toJSON(),
   });
+
 });
 
-router.patch('/parks/:id', (req, res, next) => {
+router.put('/parks/:id', (req, res, next) => {
   const { body } = req;
   if(typeof body.name !== 'undefined') {
     req.park.name = body.name;
