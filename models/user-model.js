@@ -19,14 +19,25 @@ const userSchema = new Schema({
       type: String, 
       required: true 
     },
-    avatar :{
+    profile:{
+      type: Schema.Types.ObjectId,
+      ref: 'Profile'
+    },
+    skills:{
+      type: [String],
+      required: true
+    },
+    bio:{
       type: String
     },
+    title:{
+      type: String
+    },
+    avatar : { type: String, default: 'https://res.cloudinary.com/mrosas22/image/upload/v1552686931/gallery/avatar.png'},
     date :{
       type: Date,
       default: Date.now
     },
-    bio      : {type: String, require: false},
     following: [{type: mongoose.Schema.ObjectId, ref: 'User'}],
     followers: [{type: mongoose.Schema.ObjectId, ref: 'User'}],
     role     : {type: String, enum: ['GUEST', 'EDITOR', 'ADMIN'], default: 'GUEST'},

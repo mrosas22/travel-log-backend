@@ -51,12 +51,14 @@ router.get('/all',(req,res) => {
 router.get('/:user_id',(req,res) =>{
 
     const errors = {};
-    Profile.findOne({_id: req.params.user_id})
+    // Profile.findOne({_id: req.params.user_id})
+    User.findOne({_id: req.params.user_id}).populate('profile')
     .then(profile =>{
         if(!profile){
-            errors.noProfile = 'There is no profile by this handle'
+            // errors.noProfile = 'There is no profile by this handle'
             return res.status(404).json(errors);
         }
+        console.log('The profile is: ', profile)
         return res.status(200).json(profile)
     })
     .catch(err => {
@@ -72,7 +74,10 @@ router.post('/', ensureAuthenticated, (req,res) =>{
     // Add Skills
     if(typeof req.body.skills !== undefined)
         profileFields.skills = req.body.skills.split(',');
-
+    if(typeof req.body.avatar !== 'undefined') {
+        profileFields.avatar = body.avatar;
+    }
+    console.log('Get user id:', req.user.id)
     Profile.findOne({user: req.user.id}).then(profile =>{
         if(profile){
         //Update

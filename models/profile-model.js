@@ -13,6 +13,7 @@ const ProfileSchema = new Schema({
     bio:{
         type: String
     },
+    avatar : { type: String, default: 'https://res.cloudinary.com/mrosas22/image/upload/v1552686931/gallery/avatar.png'},
     date:{
         type:  Date,
         default: Date.now
